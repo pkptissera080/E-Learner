@@ -30,3 +30,10 @@ function w3_close() {
 	document.getElementById("mySidebar").style.display = "none";
 	document.getElementById("myOverlay").style.display = "none";
 }
+
+function toggleinput(){
+	document.getElementById("uploadedfile").classList.toggle("dnone");
+	document.getElementById("changebtn").classList.toggle("dnone");
+	document.getElementById("cancelbtn").classList.toggle("dnone");
+	document.getElementById("inputfile").classList.toggle("dnone");
+}

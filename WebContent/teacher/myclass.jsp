@@ -3,7 +3,7 @@
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Statement"%>
 <%
-if ((session.getAttribute("user_type")) == null || !(session.getAttribute("user_type")).equals("teacher")) {
+	if ((session.getAttribute("user_type")) == null || !(session.getAttribute("user_type")).equals("teacher")) {
 	out.println("<script type=\"text/javascript\">");
 	out.println("location='../index.jsp';");
 	out.println("</script>");
@@ -69,9 +69,10 @@ body, h1, h2, h3, h4, h5, h6, .w3-wide {
 			</h3>
 		</div>
 
-		<a href="index.jsp" class="w3-bar-item w3-button w3-padding">My Classes</a>
-		<a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding w3-blue">My Classroom</a>
-		<a href="contact.jsp" class="w3-bar-item w3-button w3-padding">Contact</a>
+		<a href="index.jsp" class="w3-bar-item w3-button w3-padding">My
+			Classes</a> <a href="javascript:void(0)"
+			class="w3-bar-item w3-button w3-padding w3-blue">My Classroom</a> <a
+			href="contact.jsp" class="w3-bar-item w3-button w3-padding">Contact</a>
 	</nav>
 
 	<!-- Top menu on small screens -->
@@ -130,93 +131,105 @@ body, h1, h2, h3, h4, h5, h6, .w3-wide {
 		<!-- Product grid -->
 		<div class="w3-row w3-padding-24" style="min-height: 700px;">
 			<div style="padding: 5px 10px;">
-				<h3>
-					My uploads
-					</h1>
-					<button type="submit" class="cls_btn w3-margin"
-						onclick="document.getElementById('newsupload').style.display='block'">Upload</button>
-					<div style="height: 600px; overflow: auto; margin-bottom: 50px;">
-						<div id="ntfound" class="dnone">
-							<center>
-								<img src="../images/ntfound.jpg" style="height: 200px;">
-								<label class="ntfndlbl w3-margin w3-hide-small">No Uploads found</label>
-							</center>
-						</div>
-						<div style="padding: 5px 10px;">
-							<%
-								try {
-								Statement statement = null;
-								ResultSet resultSet = null;
-								Integer divcount = 0;
+				<h3>My uploads</h3>
+				<button type="submit" class="cls_btn w3-margin"
+					onclick="document.getElementById('newsupload').style.display='block'">Upload</button>
+				<div style="height: 600px; overflow: auto; margin-bottom: 50px;">
+					<div id="ntfound" class="dnone">
+						<center>
+							<img src="../images/ntfound.jpg" style="height: 200px;"> <label
+								class="ntfndlbl w3-margin w3-hide-small">No Uploads
+								found</label>
+						</center>
+					</div>
+					<div style="padding: 5px 10px;">
+						<%
+							try {
+							Statement statement = null;
+							ResultSet resultSet = null;
+							Integer divcount = 0;
 
-								DB_Connection obj_DB_Connection = new DB_Connection();
-								Connection connection = obj_DB_Connection.get_connection();
-								statement = connection.createStatement();
-								String sql = "SELECT * FROM datatable WHERE grade='" + sub_grade_val + "' && subject='" + sub_name_val
-								+ "' ORDER BY date_n_time DESC";
-								resultSet = statement.executeQuery(sql);
-								while (resultSet.next()) {
+							DB_Connection obj_DB_Connection = new DB_Connection();
+							Connection connection = obj_DB_Connection.get_connection();
+							statement = connection.createStatement();
+							String sql = "SELECT * FROM datatable WHERE grade='" + sub_grade_val + "' && subject='" + sub_name_val
+							+ "' ORDER BY date_n_time DESC";
+							resultSet = statement.executeQuery(sql);
+							while (resultSet.next()) {
 
-									if (resultSet.getString("teacher_name").equals(session.getAttribute("user_username"))) {
-								divcount++;
-							%>
+								if (resultSet.getString("teacher_name").equals(session.getAttribute("user_username"))) {
+							divcount++;
+						%>
 
-							<div class="w3-rest" style="margin-bottom: 16px;">
-								<div class="w3-container w3-padding-16">
-									<div class="teacher_div">
-										<form action="../deleteUploadServlet" method="POST">
-											<button class="w3-button w3-right">
-												<i class="fas fa-trash-alt cp w3-text-red"
-													style="font-size: 20px;"></i>
-											</button>
-											<input type="number" name="data_id"
-												value="<%=resultSet.getString("data_id")%>" class="dnone">
-											<input type="text" name="sub_grade_val"
-												value="<%=sub_grade_val%>" class="dnone"> <input
-												type="text" name="sub_name_val" value="<%=sub_name_val%>"
-												class="dnone">
-										</form>
-										<label><i class="fas fa-ellipsis-v mright"></i><%=resultSet.getString("data_title")%></label><br>
-										<p>
-											<i class="fas fa-align-left mright"></i><%=resultSet.getString("data_description")%></p>
-										<label class="w3-right"><i class="far fa-clock mright"></i><%=resultSet.getString("date_n_time")%></label><br>
-										<br>
-										<center>
-											<form action="../downloadFileServlet" method="POST">
+						<div class="w3-rest" style="margin-bottom: 16px;">
+							<div class="w3-container w3-padding-16">
+								<div class="teacher_div">
+									<form action="../deleteUploadServlet" method="POST">
+										<button class="w3-button w3-right">
+											<i class="fas fa-trash-alt cp w3-text-red"
+												style="font-size: 20px;"></i>
+										</button>
+										<input type="number" name="data_id"
+											value="<%=resultSet.getString("data_id")%>" class="dnone">
+										<input type="text" name="sub_grade_val"
+											value="<%=sub_grade_val%>" class="dnone"> <input
+											type="text" name="sub_name_val" value="<%=sub_name_val%>"
+											class="dnone">
+									</form>
+									<form action="editmyupload.jsp" method="GET">
+										<button class="w3-button w3-right">
+											<i class="fas fa-edit cp w3-text-gray"
+												style="font-size: 20px;"></i>
+										</button>
+										<input type="number" name="data_id"
+											value="<%=resultSet.getString("data_id")%>" class="dnone">
+										<input type="text" name="sub_grade_val"
+											value="<%=sub_grade_val%>" class="dnone"> <input
+											type="text" name="sub_name_val" value="<%=sub_name_val%>"
+											class="dnone">
+									</form>
+									<label><i class="fas fa-ellipsis-v mright"></i><%=resultSet.getString("data_title")%></label><br>
+									<p>
+										<i class="fas fa-align-left mright"></i><%=resultSet.getString("data_description")%></p>
+									<label class="w3-right"><i class="far fa-clock mright"></i><%=resultSet.getString("date_n_time")%></label><br>
+									<br>
+									<center>
+										<form action="../downloadFileServlet" method="POST">
 											<button class="w3-button w3-green" type="submit"">
 												Download
 												<%=resultSet.getString("data_name")%>
 												<i class="fas fa-cloud-download-alt"></i>
 											</button>
-											<input type="text" name="data_name" value="<%=resultSet.getString("data_name")%>" class="dnone">
-											</form>
-										</center>
-									</div>
+											<input type="text" name="data_name"
+												value="<%=resultSet.getString("data_name")%>" class="dnone">
+										</form>
+									</center>
 								</div>
 							</div>
-							<%
-								} else {
-							}
-							}
-								if (divcount.equals(0)) {
-									out.print("<script>document.getElementById('ntfound').style.display ='block';</script>");
-								} else {
-
-								}
-
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-
-							
-							%>
 						</div>
+						<%
+							} else {
+						}
+						}
+						if (divcount.equals(0)) {
+							out.print("<script>document.getElementById('ntfound').style.display ='block';</script>");
+						} else {
+
+						}
+
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						%>
 					</div>
+				</div>
 			</div>
 		</div>
 
 		<div class="w3-black w3-center w3-padding-24">
-			<i class="fab fa-facebook-f mright"></i><i class="fas fa-envelope mright"></i><i class="fab fa-instagram mright"></i>
+			<i class="fab fa-facebook-f mright"></i><i
+				class="fas fa-envelope mright"></i><i
+				class="fab fa-instagram mright"></i>
 		</div>
 
 		<!-- End page content -->
@@ -272,7 +285,9 @@ body, h1, h2, h3, h4, h5, h6, .w3-wide {
 								accept=".png, .jpg, .jpeg, .pdf">
 						</p>
 						<button type="submit" class="w3-button w3-block w3-blue"
-							style="max-width: 300px;">Upload <i class="fas fa-upload mleft"></i></button>
+							style="max-width: 300px;">
+							Upload <i class="fas fa-upload mleft"></i>
+						</button>
 					</form>
 				</center>
 			</div>
