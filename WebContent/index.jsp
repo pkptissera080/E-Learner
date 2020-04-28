@@ -21,14 +21,14 @@
             window.location.href = "access/login.jsp";
         }
         else{
-            if(usertype_check_val == "owner"){
-                //window.location.href = "owner/home.jsp";
+            if(usertype_check_val == "student"){
+                window.location.href = "student/index.jsp";
             }
-            else if(usertype_check_val == "manager"){
-                //window.location.href = "manager/home.jsp";
+            else if(usertype_check_val == "teacher"){
+                window.location.href = "teacher/index.jsp";
             }
-            else{
-                window.location.href = "home.jsp";
+            else {
+                window.location.href = "admin/index.jsp";
             }
         }
          }, 1000);
@@ -133,8 +133,5 @@
         </div>
     </div>
 </body>
-
-<h1 id="user_check" ><%= session.getAttribute( "user_username") %></h1>
-    <h1 id="usertype_check"><%= session.getAttribute( "user_type") %></h1>
 </html>
 

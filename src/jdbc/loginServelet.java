@@ -54,13 +54,14 @@ public class loginServelet extends HttpServlet {
             String dbUsername = null;
             String dbPassword = null;
             String dbtype = null;
+            String dbemail = null;
 
             DB_Connection obj_DB_Connection = new DB_Connection();
             Connection connection = obj_DB_Connection.get_connection();
             PreparedStatement ps = null;
             ResultSet rs = null;
 
-            String sql = "select user_username,user_pwd,user_type from users where user_username=? and user_pwd=?";
+            String sql = "select user_username,user_pwd,user_type,user_email from users where user_username=? and user_pwd=?";
             Class.forName("com.mysql.jdbc.Driver");
             ps = connection.prepareStatement(sql);
             
@@ -71,29 +72,31 @@ public class loginServelet extends HttpServlet {
                 dbUsername = rs.getString(1);
                 dbPassword = rs.getString(2);
                 dbtype = rs.getString(3);
+                dbemail = rs.getString(4);
             }
             if (lg_username.equals(dbUsername) && lg_password.equals(dbPassword)) {
             	
             	HttpSession session = request.getSession();
             	session.setAttribute("user_username", lg_username);
+            	session.setAttribute("user_email", dbemail);
             	session.setAttribute("user_type", dbtype);
             	
-            	if(dbtype.equals("owner")) {
+            	if(dbtype.equals("student")) {
             		
             		out.println("<script type=\"text/javascript\">");
-                    out.println("location='owner/home.jsp';");
+                    out.println("location='student/index.jsp';");
                     out.println("</script>");
             	}
-            	else if(dbtype.equals("manager")) {
+            	else if(dbtype.equals("teacher")) {
           		
             		out.println("<script type=\"text/javascript\">");
-                    out.println("location='manager/home.jsp';");
+                    out.println("location='teacher/index.jsp';");
                     out.println("</script>");
             	}
-            	else {
+            	else if(dbtype.equals("admin")) {
             		
             		out.println("<script type=\"text/javascript\">");
-                    out.println("location='home.jsp';");
+                    out.println("location='admin/index.jsp';");
                     out.println("</script>");
             	}
                 
